@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:40 by kong              #+#    #+#             */
-/*   Updated: 2026/04/09 00:22:45 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/10 22:50:47 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,79 @@
 # define FDF_H
 
 # include "mlx.h"
+# include "get_next_line.h"
 # include <X11/keysym.h>  // definition for different key pressed "keysymdef.h"
-# include "stdlib.h"
+# include <fcntl.h>
+# include <stdlib.h>
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 
 typedef struct s_mlx
 {
-	void	*conn;
-	void	*win;
+	void	*conn_ptr;
+	void	*win_ptr;
 }	t_mlx;
 
-// struct for map
 typedef struct	s_map
 {
-	int	width;
-	int	height;
-	
-}
+	int	col;
+	int	row;
+	struct s_coord	**coords_lst;
+}	t_map;
 
-// struct for point (map can contains multiple point)
+typedef struct	s_coord
+{
+	int	z_height;
+	int	color;
+}	t_coord;
 
-// struct for img
+typedef struct	s_viewpoint
+{
+	int	zoom;
+	int	x_off;
+	int	y_off;
+	int	z_scale;
+}	t_viewpoint;
+
+typedef struct	s_image
+{
+	int	bpp;
+	int	llen;
+	int	endian;
+	int	*img_ptr;
+}	t_image;
 
 typedef struct s_prog
 {
-	struct s_mlx	*self_mlx;
+	struct s_mlx	*mlx_obj;
+	struct s_map	*map_obj;
+	struct s_viewpoint	*vp_obj;
+	
 }	t_prog;
+
+// utils_exit.c
+void	exitprog(t_mlx *mlx, int code);
+void	perror_exit(char *msg, int code);
+void	errexit(char *msg, int code);
+void	free_lst_and_exit(char **lst, char *msg, int code);
+
+// utils_free.c
+void	freelst(char **lst);
+
+// utils_image.c
+int	rgb_to_int(int r, int g, int b);
+
+// utils_mem.c
+void	**ft_calloc_lst(size_t size);
+void	**ft_realloc_lst(void **lst, size_t new_size);
+
+// utils_parse.c
+int ft_count_list(char **str);
+char	**ft_split_by_delim(char *str, char delim);
+
+// utils_print.c
+void	ft_putstr_fd(char *str, int fd);
+void	ft_putchar_fd(char ch, int fd);
 
 #endif
