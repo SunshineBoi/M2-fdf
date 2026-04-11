@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free.c                                       :+:      :+:    :+:   */
+/*   utils_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 15:19:44 by kong              #+#    #+#             */
-/*   Updated: 2026/04/11 20:31:00 by kong             ###   ########.fr       */
+/*   Created: 2026/04/11 19:58:43 by kong              #+#    #+#             */
+/*   Updated: 2026/04/11 19:59:26 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	freelst(char **lst)
+int	open_file_as_read(char *file_path)
 {
-	int	i;
+	int	fd;
 
-	if (lst)
-	{
-		i = 0;
-		while (lst[i])
-		{
-			free(lst[i]);
-			i++;
-		}
-		free(lst);
-	}
-}
-
-// ! check again
-int	free_prog(t_prog *prog, int code)
-{
-	if (prog->map_obj)
-	{
-		free_lst_and_exit(prog->map_obj->coords_lst);
-		free(prog->map_obj);
-	}
-	if (prog->mlx_obj)
-		destroy_mlx(prog->mlx_obj);
-	if (prog->vp_obj)
-		...;
-	free(prog);
-	return (code);
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		perror_exit("FdF", EXIT_FAILURE);
+	return (fd);
 }

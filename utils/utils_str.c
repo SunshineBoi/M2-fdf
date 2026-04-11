@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_print.c                                      :+:      :+:    :+:   */
+/*   utils_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 17:08:47 by kong              #+#    #+#             */
-/*   Updated: 2026/04/11 20:34:57 by kong             ###   ########.fr       */
+/*   Created: 2026/04/11 22:58:04 by kong              #+#    #+#             */
+/*   Updated: 2026/04/11 23:00:34 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_putstr_fd(char *str, int fd)
+int	ft_iswhitespace(const char ch)
 {
-	if (!str)
-		return ;
-	while (*str)
-		write(fd, str++, 1);
+	return (ch == ' ' || ch == '\n' || ch == '\t'
+		|| ch == '\f' || ch == '\v' || ch == '\r');
 }
 
-void	ft_putchar_fd(char ch, int fd)
+int	ft_atoi(const char *nptr)
 {
-	write(fd, &ch, 1);
-}
+	int	sign;
+	int	res;
 
-void	print_error_msg(char *msg)
-{
-	if (msg)
+	while (ft_iswhitespace(*nptr))
+		nptr++;
+	sign = 1;
+	if (*nptr == '+' || *nptr == '-')
 	{
-		ft_putstr_fd(msg, 2);
-		ft_putchar_fd('\n', 2);
+		if (*nptr == '-')
+			sign = -sign;
+		nptr++;
 	}
+	res = 0;
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		res = (res * 10) + (*nptr - '0');
+		nptr++;
+	}
+	return (sign * res);
 }

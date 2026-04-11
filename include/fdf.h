@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:40 by kong              #+#    #+#             */
-/*   Updated: 2026/04/10 22:50:47 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/11 23:06:07 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <X11/keysym.h>  // definition for different key pressed "keysymdef.h"
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <limits.h>
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
@@ -66,13 +68,17 @@ typedef struct s_prog
 }	t_prog;
 
 // utils_exit.c
-void	exitprog(t_mlx *mlx, int code);
+void	destroy_mlx(t_mlx *mlx);
 void	perror_exit(char *msg, int code);
 void	errexit(char *msg, int code);
 void	free_lst_and_exit(char **lst, char *msg, int code);
 
+// utils_file.c
+int	open_file_as_read(char *file_path);
+
 // utils_free.c
 void	freelst(char **lst);
+int	free_prog(t_prog *prog, int code);
 
 // utils_image.c
 int	rgb_to_int(int r, int g, int b);
@@ -88,5 +94,10 @@ char	**ft_split_by_delim(char *str, char delim);
 // utils_print.c
 void	ft_putstr_fd(char *str, int fd);
 void	ft_putchar_fd(char ch, int fd);
+void	print_error_msg(char *msg);
+
+// utils_str.c
+int	ft_iswhitespace(const char ch);
+int	ft_atoi(const char *nptr);
 
 #endif

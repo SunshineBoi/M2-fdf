@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:03:45 by kong              #+#    #+#             */
-/*   Updated: 2026/04/10 21:28:18 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/11 19:11:52 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	**ft_realloc_lst(void **lst, size_t new_size)
 	if (!new)
 		return (NULL);
 	i = 0;
-	while (lst[i])
+	while (i < new_size && lst[i])
 	{
 		new[i] = lst[i];
 		i++;

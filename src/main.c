@@ -6,11 +6,80 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:27 by kong              #+#    #+#             */
-/*   Updated: 2026/04/10 23:01:21 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/11 23:57:00 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int	_is_in_range(char *str, long long limit)
+{
+	long long	total;
+	int			digit;
+
+	total = 0;
+	while (*str)
+	{
+		if (!(*str >= '0' && *str <= '9'))
+			return (0);
+		digit = *str - '0';
+		if (total > (limit / 10) || (total == (limit / 10) && digit > (limit % 10)))
+			return (0);	
+		total = (total * 10) + digit;
+		str++;
+	}
+	return (1);
+}
+
+int	is_valid_int(char *str)
+{
+	long long	limit;
+
+	if (!str || !*str)
+		return (0);
+	limit = INT_MAX;
+	// check sign
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			limit = -INT_MIN;
+		str++;
+	}
+	// check if sign only
+	if (!*str || *str == ',')
+		return (0);
+	return (_is_in_range(str, limit));
+}
+
+t_coord	_parse_coord_node(char *str)
+{
+	t_coord	new_coord;
+	char	*color_ptr;
+	char	*nbr_ptr;
+	int		color;
+
+	color_ptr = ft_strchr(str, ',');
+	if (!color_ptr)
+	{
+		new_coord.color = 0xFFFFFF;  // ! is this the correct way?
+		if (!is_valid_int(str))
+			return (...); // ! what is the null value of this?
+		new_coord.z_height = ft_atoi(str);
+	}
+	else
+	{
+		color = hexatoi(color_ptr + 1);
+		if (...) // ! how can i validate int for color?
+			return (...);
+		new_coord.color = color;
+	
+		nbr_ptr = ft_strndup(str, str - color_ptr);
+		if (!is_valid_int(nbr_ptr))
+			return (...); // ! what is the null value of this?
+		new_coord.z_height = ft_atoi(nbr_ptr);
+	}
+	return (new_coord);
+}
 
 t_coord	*parse_coord_arr(char *str, int *col_ptr)
 {
@@ -19,22 +88,34 @@ t_coord	*parse_coord_arr(char *str, int *col_ptr)
 		// and valid color code.
 		// and along the way validate cols
 	// create t_coord for each element and store the values.
-	char **tokens_lst;
+	char 	**tokens_lst;
 	t_coord	*coord_arr;
-	int	i = 0;
+	t_coord new_node;
+	int		i = 0;
 
 	tokens_lst = ft_split_by_delim(str, ' ');
-	if (!tokens_lst) // ! make sure no empty string as well
+	if (!tokens_lst)
 		return (NULL);
 	if (*col_ptr != 0 && *col_ptr != ft_count_list(str))
-		// ! todo: throw error invalid map, see if things need free
+		return (print_error_msg("FdF: Invalid map!"), freelst(tokens_lst), NULL);
 	*col_ptr = ft_count_list(str);
 
 	coord_arr = malloc((*col_ptr) * sizeof(t_coord));
 	while (tokens_lst[i])
 	{
-		// todo: validation
-
+		if (!tokens_lst[i][0])
+			return (print_error_msg("FdF: Invalid map!"), free(coord_arr),
+				freelst(tokens_lst), NULL);
+		// each i element is a number string
+		// ! todo: because this is not returning a pointer, it is harder to detect error
+		// 		instead, we pass the coord_arr[i] position for it to fill up,
+		//		it returns 0/1 to indicate success or failure
+		new_node = _parse_coord_node(tokens_lst[0]);
+		if (!new_node)
+			return (print_error_msg("FdF: Invalid map!"), free(coord_arr),
+				freelst(tokens_lst), NULL);
+		coord_arr[i] = new_node;
+		
 	}
 }
 
@@ -45,50 +126,46 @@ t_coord	*parse_coord_arr(char *str, int *col_ptr)
 */
 t_map	*build_map(int fd)
 {
-	char *new_row;
+	char 	*new_row;
 	t_coord	**coords_lst;
-	int	row;
-	int	row_limit;
-	int	col;
+	t_coord	**temp;
+	int		row;
+	int		row_limit;
+	int		col;
 
 	t_map	*map;
+	
 	map = malloc(sizeof(t_map));
 	if (!map)
-		perror_exit("FdF", EXIT_FAILURE);
-
+		return (perror("FdF"), NULL);
 	row = 0;
 	row_limit = 10;
 	coords_lst = ft_calloc_lst(row_limit);
-	while (row++)
+	if (!coords_lst)
+		return (perror("FdF"), free(map), NULL);
+	while (row)
 	{
 		// resizing list to allow more rows
 		if (row >= row_limit - 1)
 		{
 			row_limit *= 2;
-			ft_realloc_lst(coords_lst, row_limit);
+			temp = ft_realloc_lst(coords_lst, row_limit);
+			if (!temp)
+				return (perror("FdF"), free(map), NULL);
+			coords_lst = temp;
 		}
 		new_row = get_next_line(fd);
 		if (!new_row)
 			break ;
 		coords_lst[row] = parse_coord_arr(new_row, &map->col);
+		if (!coords_lst[row])
+			return (free(map), NULL);
+		row++;
 	}
-	col = get_validate_coords_col(coords_lst);
-	if (col == -1)
-		errexit("FdF: Invalid map!", EXIT_FAILURE);
 	map->row = row;
 	map->coords_lst = coords_lst;
 
 	return (map);
-}
-
-int	open_file_as_read(char *file_path)
-{
-	int	fd;
-
-	fd = open(file_path, O_RDONLY);
-	if (fd == -1)
-		perror_exit("FdF", EXIT_FAILURE);
-	return (fd);
 }
 
 int	main(int ac, char **av)
@@ -103,12 +180,18 @@ int	main(int ac, char **av)
 	if (!prog)
 		// ! error exit
 
-	// todo:
+	// todo: setup MLX
 	prog->mlx_obj = setup_mlx();
 
 	// read map
 	fd = open_file_as_read(av[1]);
+	if (fd == -1)
+		return (perror("FdF"), free_prog(prog, EXIT_FAILURE));
 	prog->map_obj = build_map(fd);
+	if (!prog->map_obj)
+		free_prog(prog, EXIT_FAILURE);
+
+	// todo: setup viewpoint
 
 	close(fd); // when should this be closed?
 	return (0);

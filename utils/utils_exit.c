@@ -6,13 +6,13 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:49:32 by kong              #+#    #+#             */
-/*   Updated: 2026/04/10 18:12:43 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/11 23:57:09 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	exitprog(t_mlx *mlx, int code)
+void	destroy_mlx(t_mlx *mlx)
 {
 	if (mlx)
 	{
@@ -26,8 +26,7 @@ void	exitprog(t_mlx *mlx, int code)
 			free(mlx->conn_ptr);
 		}
 	}
-	// ! note: t_prog should lives in stack
-	exit(code);
+	// ! note: t_prog should lives in stack?
 }
 
 // void	input_errexit(char **lst)
@@ -60,3 +59,4 @@ void	free_lst_and_exit(char **lst, char *msg, int code)
 	freelst(lst);
 	errexit(msg, code);
 }
+
