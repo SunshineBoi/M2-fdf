@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:40 by kong              #+#    #+#             */
-/*   Updated: 2026/04/18 21:19:33 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/18 21:26:21 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	**ft_realloc_lst(void **lst, size_t new_size);
 
 // utils_parse.c
 int ft_count_list(char **str);
-int	count_word_by_delim(char *str, char ch)
+int	count_word_by_delim(char *str, char ch);
 char	**ft_split_by_delim(char *str, char delim);
 
 // utils_print.c
@@ -107,7 +107,7 @@ int	ft_iswhitespace(const char ch);
 int	ft_atoi(const char *nptr);
 unsigned int	ft_color_hexatoi(const char *nptr);
 int	is_hex(char ch);
-size_t	ft_strlen(const char *str);
+// size_t	ft_strlen(const char *str);
 
 // utils_validate.c
 int	is_valid_int(char *str);
