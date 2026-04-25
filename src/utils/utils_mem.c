@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:03:45 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 15:51:14 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/20 19:23:08 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
+/**
+ * @brief Allocates an array of void * pointers with size + 1 elements, initializes every element to NULL.
+ * 
+ * @param size: size of list, excluding extra space for null.
+ * 
+ * @returns
+ * On success, The pointer to the new list;
+ * On allocation failure it prints FdF via perror and returns NULL.
+ *
+ */
 void	**ft_calloc_lst(size_t size)
 {
 	void	**new;
@@ -75,13 +85,27 @@ void	**ft_calloc_lst(size_t size)
 	to have multiple copies of it with each individual changes.
 	We need individual copies for different sets of operation.
 */
+
+/**
+ * @brief Allocates a new array of void * pointers with new_size + 1 elements initialized to NULL, copies up to new_size existing entries from lst until a NULL terminator, frees the old list, and returns the new array, or returns NULL on error. If lst is NULL, it simply allocates and returns a fresh initialized list.
+ * 
+ * @param lst: old list
+ * @param new_size: new size of list
+ * 
+ * @returns
+ * If size <= 0, returns NULL;
+ * If lst is empty, returns newly initialized list;
+ * On success, the pointer to the new list;
+ * On allocation failure it prints FdF via perror and returns NULL.
+ *
+ */
 void	**ft_realloc_lst(void **lst, size_t new_size)
 {
 	void	**new;
 	int		i;
 
 	if (new_size <= 0)
-		return (print_error_msg("FdF: realloc list fails!"), NULL);
+		return (print_errmsg("FdF: realloc list fails!"), NULL);
 	if (!lst)
 		return (ft_calloc_lst(new_size));
 	new = ft_calloc_lst(new_size);

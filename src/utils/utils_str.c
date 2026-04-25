@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 22:58:04 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 16:42:52 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/25 23:33:28 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static int	_val(char ch)
 	return (-1);
 }
 
-unsigned int	ft_color_hexatoi(const char *nptr)
+int	ft_color_hexatoi(const char *nptr)
 {
-	unsigned int	res; // ! what is the correct type?
+	int	res;
 	int	nbr;
 
 	// skip '0x'

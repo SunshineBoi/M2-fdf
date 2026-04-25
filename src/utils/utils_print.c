@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:08:47 by kong              #+#    #+#             */
-/*   Updated: 2026/04/11 20:34:57 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/20 17:59:43 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	ft_putstr_fd(char *str, int fd)
 {
 	if (!str)
 		return ;
-	while (*str)
-		write(fd, str++, 1);
+	write(fd, str, ft_strlen(str));
 }
 
 void	ft_putchar_fd(char ch, int fd)
@@ -25,7 +24,7 @@ void	ft_putchar_fd(char ch, int fd)
 	write(fd, &ch, 1);
 }
 
-void	print_error_msg(char *msg)
+void	print_errmsg(char *msg)
 {
 	if (msg)
 	{

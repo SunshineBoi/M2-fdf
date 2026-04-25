@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:49:32 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 13:13:33 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/20 18:02:08 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // }
 
 // sys error exit
-void	perror_exit(char *msg, int code)
+void	perrexit(char *msg, int code)
 {
 	perror(msg);
 	exit(code);
@@ -38,9 +38,15 @@ void	errexit(char *msg, int code)
 	exit(code);
 }
 
-void	free_lst_and_exit(char **lst, char *msg, int code)
+void	freelst_perrexit(char **lst, char *msg, int code)
 {
-	free_lst(lst);
+	freelist(lst);
+	perrexit(msg, code);
+}
+
+void	freelst_exit(char **lst, char *msg, int code)
+{
+	freelst(lst);
 	errexit(msg, code);
 }
 

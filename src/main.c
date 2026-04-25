@@ -6,168 +6,97 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:27 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 16:46:43 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/25 16:41:13 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	_update_map_z(t_map *map, t_coord coord)
+t_data	*init_fdf()
 {
-	if (coord->z_height > map->z_max)
-		map->z_max = coord->z_height;
-	else if (coord->z_height < map->z_min)
-		map->z_min = coord->z_height;
-}
+	t_data	*fdf;
 
-int	_parse_coord_node(t_coord *dest, char *token, t_map *map)
-{
-	t_coord	new_coord;
-	char	*color_ptr;
-	char	*nbr_ptr;
-	int		color;
-
-	color_ptr = ft_strchr(token, ',');
-	if (!color_ptr)
-	{
-		new_coord.color = 0xFFFFFF;
-		if (!is_valid_int(token))
-			return (0);
-		new_coord.z_height = ft_atoi(token);
-	}
-	else
-	{
-		if (!is_valid_color(color_ptr + 1))
-			return (0);
-		color = ft_color_hexatoi(color_ptr + 1);
-		new_coord.color = color;
-	
-		nbr_ptr = ft_strndup(token, color_ptr - token);
-		if (!is_valid_int(nbr_ptr))
-			return (free(nbr_ptr), 0);
-		new_coord.z_height = ft_atoi(nbr_ptr);
-		free(nbr_ptr);
-	}
-	*dest = new_coord;
-	_update_map_z(map, new_coord);
-	return (1);
-}
-/*
-ft_split strictly on space
-given words list, verify each element is valid int (incl overflow),
-	and valid color code.
-	and along the way validate cols
-create t_coord for each element and store the values.
-*/
-t_coord	*parse_coord_arr(char *str, t_map* map)
-{
-	char 	**tokens_lst;
-	t_coord	*coord_arr;
-	int		i = 0;
-
-	// here already guarding empty "" input
-	tokens_lst = ft_split_by_delim(str, ' ');
-	if (!tokens_lst)
-		return (NULL);
-	if (map->n_col != 0 && map->n_col != ft_count_list(tokens_lst))
-		return (print_error_msg("FdF: Invalid map!"), free_lst(tokens_lst), NULL);
-	map->n_col = ft_count_list(tokens_lst);
-
-	coord_arr = malloc((map->n_col) * sizeof(t_coord));
-	if (!coord_arr)
-		return (perror("FdF"), free_lst(tokens_lst), NULL);
-	while (tokens_lst[i])
-	{
-		// each i element is a number string
-		// because this is not returning a pointer, it is harder to detect error
-			// instead, we pass the coord_arr[i] position for it to fill up,
-			// it returns 0/1 to indicate success or failure
-		if (!_parse_coord_node(&(coord_arr[i]), tokens_lst[i], map))
-			return (print_error_msg("FdF: Invalid map!"), free(coord_arr),
-				free_lst(tokens_lst), NULL);
-		i++;
-	}
-	free_lst(tokens_lst);
-	return (coord_arr);
-}
-
-/*
-1  -2  3  4  5,0xff
-6  7  8  9  10,0xFFFFFF
-11 12 13 14 15,0x870f0f
-*/
-t_map	*build_map(int fd)
-{
-	char 	*new_row;
-	t_coord	**coords_lst;
-	t_coord	**temp;
-	t_map	*map;
-	int		row_limit;
-	// ! todo: add in zmin and zmax
-
-	map = init_map();
-	if (!map)
+	fdf = malloc(sizeof(t_data));
+	if (!fdf)
 		return (perror("FdF"), NULL);
-	row_limit = 10;
-	coords_lst = ft_calloc_lst(row_limit);
-	if (!coords_lst)
-		return (free(map), NULL);
-	while (1)
-	{
-		// resizing list to allow more rows
-		if (map->n_row >= row_limit - 1)
-		{
-			row_limit *= 2;
-			temp = ft_realloc_lst(coords_lst, row_limit);
-			if (!temp)
-				return (free_lst(coords_lst), free(map), NULL);
-			coords_lst = temp;
-		}
-		new_row = get_next_line(fd);
-		if (!new_row)
-			break ;
-		coords_lst[map->n_row] = parse_coord_arr(new_row, map);
-		if (!coords_lst[map->n_row])
-			return (free(new_row), free_lst(coords_lst), free(map), NULL);
-		map->n_row++;
-		free(new_row);
-	}
-	if (map->n_row == 0 || map->n_col == 0)
-		return (print_error_msg("FdF: Invalid map!"), free_lst(coords_lst), free(map), NULL);
-	map->coords_lst = coords_lst;
-	return (map);
+	fdf->map_obj = NULL;
+	fdf->mlx_obj = NULL;
+	fdf->vp_obj = NULL;
+	return (fdf);
+}
+
+
+t_viewpoint	*init_vp(t_map *map)
+{
+	t_viewpoint *vp;
+
+	vp = malloc(sizeof(t_viewpoint));
+	if (!vp)
+		return (perror("FdF"), NULL);
+	vp->f_zoom = WIN_HEIGHT / (map->n_row + map->n_col);  // check this
+	vp->f_zscale = 20;
+	vp->spin_deg = 45;
+	vp->pitch_deg = 30;
+	vp->x_win_anchor = WIN_WIDTH / 2;
+	vp->y_win_anchor = WIN_HEIGHT / 2;
+	return (vp);
+}
+
+t_image	*init_img()
+{
+	t_image	*img;
+
+	img = malloc(sizeof(t_image));
+	if (!img)
+		return (perror("FdF"), NULL);
+	img->bpp = 0;
+	img->spl = ??;
+	img->endian = ??;
 }
 
 int	main(int ac, char **av)
 {
-	int	fd;
-	t_prog	*prog;
+	int		fd;
+	t_data	*fdf;
 
 	if (ac != 2)
-		errexit("fdf: Error: Wrong argument counts", 1);
+		errexit("FdF: Error: Wrong argument counts", EXIT_FAILURE);
 
-	prog = malloc(sizeof(t_prog));
-	if (!prog)
-		// ! error exit
-
+	fdf = init_fdf();
+	if (!fdf)
+		return (EXIT_FAILURE);
+	
 	// todo: setup MLX
-	prog->mlx_obj = setup_mlx();
+	fdf->mlx_obj = setup_mlx();
+	if (!fdf->mlx_obj)
+		return (freeprog(fdf, EXIT_FAILURE));
 
-	// read map
-	fd = open_file_as_read(av[1]);
+	// todo: read map
+	fd = open_file_read(av[1]);
 	if (fd == -1)
-		return (perror("FdF"), free_prog(prog), EXIT_FAILURE);
-	prog->map_obj = build_map(fd);
-	if (!prog->map_obj)
-		return (free_prog(prog), EXIT_FAILURE);
+		return (freeprog(fdf, EXIT_FAILURE));
+	fdf->map_obj = build_map(fd);
+	if (!fdf->map_obj)
+		return (freeprog(fdf, EXIT_FAILURE));
+	close(fd);
 
 	// todo: setup viewpoint
+	fdf->vp_obj = init_vp(fdf->map_obj);
+	if (!fdf)
+		return (freeprog(fdf, EXIT_FAILURE));
 
-	close(fd); // when should this be closed?
-	return (0);
+	fdf->img_obj = init_img();
+	if (!fdf->img_obj)
+		return (freeprog(fdf, EXIT_FAILURE));
+
+	// todo: rendering
+	render_img(fdf);
+
+	// start listening
+	mlx_loop(fdf->mlx_obj->conn_ptr);
+
+	return (EXIT_SUCCESS);
 }
-
-
 
 int main_test(void)
 {

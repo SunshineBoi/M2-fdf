@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 22:37:00 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 15:50:35 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/20 19:23:07 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**ft_split_by_delim(char *str, char delim)
 	word_count = count_word_by_delim(str, delim);
 	// ! to check what is the minimum number of input
 	if (word_count == 0)
-		return (print_error_msg("FdF: Invalid map!"), NULL);
+		return (print_errmsg("FdF: Invalid map!"), NULL);
 	lst = ft_calloc_lst(word_count);
 	if (!lst)
 		return (NULL);
@@ -83,7 +83,7 @@ char	**ft_split_by_delim(char *str, char delim)
 		size = _split_and_insert_str(&(lst[lst_i]), str, delim);
 		if (size == -1)
 		{
-			free_lst(lst);
+			freelst(lst);
 			return (NULL);
 		}
 		if (lst[lst_i])
