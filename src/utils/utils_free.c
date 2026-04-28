@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 15:19:44 by kong              #+#    #+#             */
-/*   Updated: 2026/04/24 10:38:22 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/27 19:14:13 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,24 @@ void	freemlx(t_mlx *mlx)
 	}
 }
 
-// ! check again
 int	freeprog(t_data *prog, int code)
 {
-	if (prog->mlx_obj)
-		destroy_mlx(prog->mlx_obj);
 	if (prog->map_obj)
 	{
-		freelst(prog->map_obj->src_lst);
+		freelst((void **)prog->map_obj->src_lst);
 		free(prog->map_obj);
 	}
 	if (prog->vp_obj)
-		...;
+	{
+		free(prog->vp_obj);
+	}
 	if (prog->img_obj)
-		...;
+	{
+		mlx_destroy_image(prog->mlx_obj->conn_ptr, prog->img_obj->img_ptr);
+		free(prog->img_obj);
+	}
+	if (prog->mlx_obj)
+		freemlx(prog->mlx_obj);
 	free(prog);
+	return (code);
 }

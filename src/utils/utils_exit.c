@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:49:32 by kong              #+#    #+#             */
-/*   Updated: 2026/04/20 18:02:08 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/27 18:38:26 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	errexit(char *msg, int code)
 
 void	freelst_perrexit(char **lst, char *msg, int code)
 {
-	freelist(lst);
+	freelst((void **)lst);
 	perrexit(msg, code);
 }
 
 void	freelst_exit(char **lst, char *msg, int code)
 {
-	freelst(lst);
+	freelst((void **)lst);
 	errexit(msg, code);
 }
 

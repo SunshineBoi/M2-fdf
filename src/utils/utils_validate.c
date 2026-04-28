@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:50:58 by kong              #+#    #+#             */
-/*   Updated: 2026/04/13 17:25:56 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/26 13:20:10 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_valid_int(char *str)
 	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
-			limit = -INT_MIN;
+			limit = -(long long)INT_MIN; // before conversion it needs to have the correct type
 		str++;
 	}
 	// check if sign only
@@ -64,7 +64,7 @@ int	is_valid_color(char *str)
 	if (*str != '0' || *(str + 1) != 'x')
 		return (0);
 	str += 2;
-	if (!str)
+	if (!*str)
 		return (0);
 	limit = 8;
 	while (*str && limit--)

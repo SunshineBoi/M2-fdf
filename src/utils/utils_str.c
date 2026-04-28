@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 22:58:04 by kong              #+#    #+#             */
-/*   Updated: 2026/04/25 23:33:28 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/27 18:43:18 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,4 @@ int	is_hex(char ch)
 	return ((ch >= '0' && ch <= '9') ||
 			(ch >= 'a' && ch <= 'f') ||
 			(ch >= 'A' && ch <= 'F'));
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	count;
-
-	if (!str)
-		return (0);
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
 }

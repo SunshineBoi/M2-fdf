@@ -6,26 +6,36 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:03:45 by kong              #+#    #+#             */
-/*   Updated: 2026/04/20 19:23:08 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/27 18:19:40 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void *ft_memset(void *s, int value, size_t nbyte)
 {
-	size_t	i;
-	unsigned char	*dest_p;
-	const unsigned char	*src_p;
+	unsigned char	*s_ptr;
 
-	dest_p = (unsigned char *)dest;
-	src_p = (const unsigned char *)src;
-	while (n--)
-	{
-		*dest_p++ = *src_p++;
-	}
-	return (dest);
+	s_ptr = (unsigned char *)s;
+	while (nbyte--)
+		*s_ptr++ = (unsigned char)value;
+	return (s);
 }
+
+// void	*ft_memcpy(void *dest, const void *src, size_t n)
+// {
+// 	size_t	i;
+// 	unsigned char	*dest_p;
+// 	const unsigned char	*src_p;
+
+// 	dest_p = (unsigned char *)dest;
+// 	src_p = (const unsigned char *)src;
+// 	while (n--)
+// 	{
+// 		*dest_p++ = *src_p++;
+// 	}
+// 	return (dest);
+// }
 
 /**
  * @brief Allocates an array of void * pointers with size + 1 elements, initializes every element to NULL.
@@ -102,7 +112,7 @@ void	**ft_calloc_lst(size_t size)
 void	**ft_realloc_lst(void **lst, size_t new_size)
 {
 	void	**new;
-	int		i;
+	size_t	i;
 
 	if (new_size <= 0)
 		return (print_errmsg("FdF: realloc list fails!"), NULL);

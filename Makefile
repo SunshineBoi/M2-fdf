@@ -12,7 +12,7 @@
 
 # Compiler and Flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # Archive and Flags
 AR = ar
@@ -49,7 +49,7 @@ all: $(NAME)
 
 # Build Executable
 $(NAME): $(OBJ_FILES)
-	$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_FILES) $(MLXFLAGS) -o $(NAME)
 
 clean:
 	rm -rf $(BUILD_DIR)
