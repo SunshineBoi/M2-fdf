@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 18:10:19 by kong              #+#    #+#             */
-/*   Updated: 2026/04/27 23:30:24 by kong             ###   ########.fr       */
+/*   Updated: 2026/04/30 21:24:52 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static void	_update_map_z(t_map *map, t_coord coord)
 }
 
 /**
- * @brief Parses a coordinate token into dest, extracting an integer height and optional hex color from token, defaults color to 0xFFFFFF if absent, updates the map’s z bounds via _update_map_z, and returns 1 on success or 0 on invalid input.
+ * @brief Parses a coordinate token into dest, extracting an integer height and optional hex color from token.
+ * If no color is provided, and Z = 0, default color to 0xFFFFFF;
+ * else if Z > 0, default color to purple.
+ * 
+ * updates the map’s z bounds via _update_map_z, and returns 1 on success or 0 on invalid input.
  * 
  * @param dest  : the pointer to be filled
  * @param token : each coordinate in string
@@ -56,10 +60,13 @@ static int	_parse_coord_node(t_coord *dest, char *token, t_map *map)
 	color_ptr = ft_strchr(token, ',');
 	if (!color_ptr)
 	{
-		new_coord.color = 0x00440099;
 		if (!is_valid_int(token))
 			return (0);
 		new_coord.z = ft_atoi(token);
+		if (new_coord.z == 0)
+			new_coord.color = 0xFFFFFF;
+		else
+			new_coord.color = -1;  // to be processed later.
 	}
 	else
 	{
