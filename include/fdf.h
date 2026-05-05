@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:40 by kong              #+#    #+#             */
-/*   Updated: 2026/04/30 19:00:00 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/05 18:56:42 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct	s_viewpoint
 	double	pitch_deg;
 }	t_viewpoint;
 
-// ! check type
 typedef struct	s_image
 {
 	int		is_dirty;
@@ -89,93 +88,131 @@ typedef struct s_data
 	struct s_image		*img_obj;
 }	t_data;
 
-// utils_draw.c
+typedef struct s_line
+{
+	t_coord	start;
+	t_coord	end;
+	int		major_axis;
+	int		minor_axis;
+	int		major_step;
+	int		minor_step;
+	int		gradient;
+	int		dx;
+	int		dy;
+	int		boundary;
+	int		reset;
+}	t_line;
 
-int	rgb_to_int(int r, int g, int b);
+// (OK) utils_draw.c
 
-// utils_exit.c
+int		rgb_to_int(int r, int g, int b);
+int		interpolate_color(int color_start, int color_end, float f);
+int		interpolate_color_from_base(float z_curr, t_coord start, t_coord end);
+void	color_pixel(t_data *data, int x, int y, int color);
+
+// (OK) utils_exit.c
 
 void	perrexit(char *msg, int code);
 void	errexit(char *msg, int code);
 void	freelst_perrexit(char **lst, char *msg, int code);
 void	freelst_exit(char **lst, char *msg, int code);
 
-// utils_file.c
-
-int		open_file_read(char *file_path);
-
-// utils_free.c
+// (OK) utils_free.c
 
 void	freelst(void **lst);
 void	freemlx(t_mlx *mlx);
 int		freeprogexit(t_data *prog, int code);
 
-// utils_map.c
+// (OK) utils_image.c
+void	build_points(t_data *data, t_coord *points, int rows, int cols);
 
-int ft_count_list(char **str);
-int	count_word_by_delim(char *str, char ch);
+// (OK) utils_map.c
+
+int 	ft_count_list(char **str);
+int		count_word_by_delim(char *str, char ch);
 char	**ft_split_by_delim(char *str, char delim);
 
-// utils_math.c
+// (OK) utils_math.c
 
-int	ft_abs(int nbr);
-int	ft_max(int a, int b);
+long	ft_abs(int nbr);
+int		ft_max(int a, int b);
 
-// utils_mem.c
+// (OK) utils_mem.c
 
-// void	*ft_memcpy(void *dest, const void *src, size_t n);
-void *ft_memset(void *s, int value, size_t nbyte);
+void 	*ft_memset(void *s, int value, size_t nbyte);
 void	**ft_calloc_lst(size_t size);
 void	**ft_realloc_lst(void **lst, size_t new_size);
 
-// utils_print.c
+// (OK) utils_mouse.c
+
+void	mouse_zoom(t_data *data, int x, int y, float f_zoom);
+void	set_pan(t_data *data, int x, int y);
+void	set_rotate(t_data *data, int x, int y);
+void	mouse_pan(t_data *data, int x, int y);
+void	mouse_rotate(t_data *data, int x, int y);
+
+// (OK) utils_print.c
 
 void	ft_putstr_fd(char *str, int fd);
 void	ft_putchar_fd(char ch, int fd);
-void	print_errmsg(char *msg);
+void	perrmsg(char *msg);
 
-// utils_str.c
+// (OK) utils_str.c
 
-int	ft_iswhitespace(const char ch);
-int	ft_atoi(const char *nptr);
-int	ft_color_hexatoi(const char *nptr);
-int	is_hex(char ch);
+int		ft_iswhitespace(const char ch);
+int		ft_atoi(const char *nptr);
+int		ft_color_hexatoi(const char *nptr);
+int		is_hex(char ch);
 
-// utils_validate.c
+// (OK) utils_validate.c
 
-int	is_valid_int(char *str);
-int	is_valid_color(char *str);
+int		is_valid_int(char *str);
+int		is_valid_color(char *str);
 
-// draw.c
-int	rerender_img(t_data *data);
-int	create_mlx_img(t_mlx *mlx_obj, t_image *img_obj, t_viewpoint *vp_obj);
-t_image	*init_img(t_mlx *mlx_obj, t_viewpoint *vp_obj);
+// (OK) draw.c
+
+t_line	init_line(t_coord start, t_coord end);
 void	draw_line(t_data *data, t_coord start, t_coord end);
-void	do_render(t_data *data, t_coord *screen_arr);
-int	render_img(t_data *data);
-int	interpolate_color_from_base(float z_curr, t_coord start, t_coord end);
-int	interpolate_color(int color_start, int color_end, float f);
 
-// events.c
+// (OK) events_key.c
 
-int	loop_hook(void *param);
-int	handle_close(void *param);
-int	handle_keyboard(int keycode, void *param);
+int		handle_keyboard(int keycode, void *param);
+int		handle_mouse_click(int button, int x, int y, void *param);
+int		handle_mouse_release(int button, int x, int y, void *param);
+int		handle_mouse_move(int x, int y, void *param);
+
+// (OK) events.c
+
+int		handle_close(void *param);
+int		handle_resize(void *param);
+int		handle_loop_hook(void *param);
+
+
+// (OK) image.c
+
+int		init_mlx_img(t_mlx *mlx_obj, t_image *img_obj, t_viewpoint *vp_obj);
+t_image	*init_img(t_mlx *mlx_obj, t_viewpoint *vp_obj);
+int		rerender_img(t_data *data);
+int		render_img(t_data *data);
+
+// main.c
+
+t_data	*init_data(void);
+t_mlx	*setup_mlx(void);
 void	setup_events(t_data *data);
-int	handle_resize(void *param);
+int		fdf(char *file);
 
-// main
+// (OK) map_points.c
 
-t_data	*init_data();
-t_mlx	*setup_mlx();
+t_coord	*parse_coord_arr(char *str, t_map* map);
 
-// map
+// (OK) map
 
 t_map	*init_map(void);
-t_coord	*parse_coord_arr(char *str, t_map* map);
 t_map	*build_map(int fd);
+t_map	*read_map_file(char *file_path);
 
-// viewpoint.c
+// (OK) viewpoint.c
 
 t_viewpoint	*init_vp(t_map *map);
 void	iso_vp(t_viewpoint *vp, int rows, int cols);

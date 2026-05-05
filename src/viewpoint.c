@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:12:05 by kong              #+#    #+#             */
-/*   Updated: 2026/04/30 18:34:20 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/05 14:30:17 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	iso_vp(t_viewpoint *vp, int rows, int cols)
 {
 	// total map size relative to window size
 	vp->f_zoom = (float)vp->win_width / (float)(rows + cols);
-	// is just a constant ratio ~10% relative to X-Y plane. controlling the height
+	// is just a constant ratio ~10% relative to X-Y plane.
+	// controlling the height
 	vp->f_zscale = (float)ft_max(rows, cols) / 10.0f;
 	vp->spin_deg = 45;
 	vp->pitch_deg = 30;

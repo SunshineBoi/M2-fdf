@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:37:22 by kong              #+#    #+#             */
-/*   Updated: 2025/12/17 17:26:04 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/05 18:53:38 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*get_next_line(int fd)
 	char		*new_stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (free(stash), NULL);
 	new_stash = ft_write_stash(stash, fd);
 	if (!new_stash)
 	{

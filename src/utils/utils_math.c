@@ -6,16 +6,16 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:21:00 by kong              #+#    #+#             */
-/*   Updated: 2026/04/28 18:22:10 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/05 16:40:00 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_abs(int nbr)
+long	ft_abs(int nbr)
 {
 	if (nbr < 0)
-		return (-nbr);
+		return (-(long)nbr);
 	return (nbr);
 }
 

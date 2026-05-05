@@ -6,20 +6,11 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:49:32 by kong              #+#    #+#             */
-/*   Updated: 2026/04/27 18:38:26 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/05 14:54:57 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-
-// void	input_errexit(char **lst)
-// {
-// 	if (lst)
-// 		free_list(lst);
-// 	ft_putstr_fd("Error\n", 2);
-// 	exit(1);
-// }
 
 // sys error exit
 void	perrexit(char *msg, int code)
