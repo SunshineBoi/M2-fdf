@@ -47,8 +47,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 # Default Target
 all: $(NAME)
 
+$(MLX_DIR)/libmlx.a:
+	$(MAKE) -C $(MLX_DIR)
+
 # Build Executable
-$(NAME): $(OBJ_FILES)
+$(NAME): $(MLX_DIR)/libmlx.a $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(OBJ_FILES) $(MLXFLAGS) -o $(NAME)
 
 clean:

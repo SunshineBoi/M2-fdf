@@ -95,8 +95,14 @@ t_map	*build_map(int fd)
 t_map	*read_map_file(char *file_path)
 {
 	int		fd;
+	int		i;
 	t_map	*new_map;
 
+	i = 0;
+	while (file_path[i])
+		i++;
+	if (i < 4 || !ft_strnstr(&file_path[i - 4], ".fdf", 4))
+		return (perrmsg("FdF: Error: Invalid file name"), NULL);
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (perror("FdF"), NULL);
@@ -106,3 +112,4 @@ t_map	*read_map_file(char *file_path)
 		return (NULL);
 	return (new_map);
 }
+

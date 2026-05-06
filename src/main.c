@@ -72,12 +72,12 @@ int	fdf(char *file)
 	data = init_data();
 	if (!data)
 		return (EXIT_FAILURE);
-	data->mlx_obj = setup_mlx();
-	if (!data->mlx_obj)
-		return (freeprogexit(data, EXIT_FAILURE));
 	// read map
 	data->map_obj = read_map_file(file);
 	if (!data->map_obj)
+		return (freeprogexit(data, EXIT_FAILURE));
+	data->mlx_obj = setup_mlx();
+	if (!data->mlx_obj)
 		return (freeprogexit(data, EXIT_FAILURE));
 	data->vp_obj = init_vp(data->map_obj);
 	if (!data->vp_obj)
