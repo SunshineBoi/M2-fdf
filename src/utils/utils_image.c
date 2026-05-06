@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:03:02 by kong              #+#    #+#             */
-/*   Updated: 2026/05/05 17:36:40 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/06 15:46:52 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	_fill_point_color(t_data *data, t_coord *point, int row, int col)
 		point->color = src_lst[row][col].color;
 }
 
-void	build_points(t_data *data, t_coord *points, int rows, int cols)
+void	build_img_points(t_data *data, t_coord *points, int rows, int cols)
 {
 	int		row;
 	int		col;

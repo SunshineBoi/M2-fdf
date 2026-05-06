@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 17:55:01 by kong              #+#    #+#             */
-/*   Updated: 2026/05/05 17:41:23 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/06 15:46:53 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	render_img(t_data *data)
 	point_arr = malloc((data->map_obj->n_row * col_size) * sizeof(t_coord));
 	if (!point_arr)
 		return (perror("FdF"), -1);
-	build_points(data, point_arr, row_size, col_size);
+	build_img_points(data, point_arr, row_size, col_size);
 	ft_memset(data->img_obj->pixel_ptr, 0, 
 		data->vp_obj->win_height * data->img_obj->spl);
 	_do_render(data, point_arr);

@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:23:40 by kong              #+#    #+#             */
-/*   Updated: 2026/05/05 18:56:42 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/06 19:27:02 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	freemlx(t_mlx *mlx);
 int		freeprogexit(t_data *prog, int code);
 
 // (OK) utils_image.c
-void	build_points(t_data *data, t_coord *points, int rows, int cols);
+void	build_img_points(t_data *data, t_coord *points, int rows, int cols);
 
 // (OK) utils_map.c
 
@@ -136,6 +136,7 @@ char	**ft_split_by_delim(char *str, char delim);
 
 long	ft_abs(int nbr);
 int		ft_max(int a, int b);
+float	ft_min(float a, float b);
 
 // (OK) utils_mem.c
 

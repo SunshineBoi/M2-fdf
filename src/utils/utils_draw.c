@@ -6,7 +6,7 @@
 /*   By: kong <kong@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 18:38:21 by kong              #+#    #+#             */
-/*   Updated: 2026/05/05 19:09:23 by kong             ###   ########.fr       */
+/*   Updated: 2026/05/06 19:14:48 by kong             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	interpolate_color_from_base(float z_curr, t_coord start, t_coord end)
 
 	z_start = (float)start.z;
 	z_end = (float)end.z;
-	if ((z_start > 0 && z_end > 0) || (z_start < 0 && z_end < 0))
+
+	if ((z_start >= 0 && z_end >= 0) || (z_start <= 0 && z_end <= 0))
 	{
 		f = fabsf((z_curr - z_start) / (z_start - z_end));
 		return (interpolate_color(start.color, end.color, f));
