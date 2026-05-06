@@ -128,6 +128,7 @@ void	build_img_points(t_data *data, t_coord *points, int rows, int cols);
 
 // (OK) utils_map.c
 
+char	*ft_strnstr(const char *big, const char *little, size_t len);
 int 	ft_count_list(char **str);
 int		count_word_by_delim(char *str, char ch);
 char	**ft_split_by_delim(char *str, char delim);
